@@ -12,3 +12,12 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
+
+session = GoogleDrive::Session.from_service_account_key("#{Rails.root}/client_secret.json")
+
+# Get the spreadsheet by its title
+spreadsheet = session.spreadsheet_by_title("rshell data")
+# Get the first worksheet
+worksheet = spreadsheet.worksheets.first
+# Print out the first 6 columns of each row
+worksheet.rows.each { |row| puts row.first(6).join(" | ") }
